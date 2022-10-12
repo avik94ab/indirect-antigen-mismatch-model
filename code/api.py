@@ -1,5 +1,6 @@
 import iedb, math
 import pandas as pd
+from bioservices import UniProt
 
 def NetMHCIIPan4(peptides, threshold = 0.5, allele = ["HLA-DRB1*03:01","HLA-DRB1*07:01","HLA-DRB1*15:01","HLA-DRB3*01:01","HLA-DRB3*02:02","HLA-DRB4*01:01","HLA-DRB5*01:01"]):
 
@@ -33,3 +34,43 @@ def NetMHCIIPan4(peptides, threshold = 0.5, allele = ["HLA-DRB1*03:01","HLA-DRB1
             else:
                 df.loc[p,a] = 0
     return df
+
+
+def fetchSequence(query):
+
+    '''
+    Paramters:
+        query (str): a valid UniProt identifier
+    Returns:
+        seq (str): protein-sequence corresponding to UniProt identifier
+    '''
+    # Make a link to the UniProt webservice (UniProt())
+    service = UniProt()
+
+    # Send the query to UniProt, and catch the search result in a variable (service.search())
+    fileContent = service.search(query, frmt="fasta")
+    seq = "".join(fileContent.splitlines()[1:])
+
+    # Inspect the result
+    return seq
+
+
+def generatePeptides(seq, size = 15, shift = 5):
+
+    '''
+    Paramters:
+        seq (str): protein-sequence
+        size (int): size of each peptide
+        shift (int): shifting window
+    Returns:
+        peptides ([str]): list of peptides
+    '''
+    peptides = []
+    k = 0
+    i = 0
+    while(k<len(seq)-(size-shift)):
+        if len(seq[i:(k+size)]) == size:
+            peptides.append(seq[i:(k+size)])
+        i += shift
+        k += shift
+    return peptides
