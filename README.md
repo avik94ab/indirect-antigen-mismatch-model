@@ -69,6 +69,8 @@ values in the tables should be identical or nearly identical.
 
 Congratulations!  NetMHCIIpan is installed and functional!
 
+Adapted from: https://raw.githubusercontent.com/wiki/CaronLab/MhcVizPipe/Installation-of-third-party-software.md
+
 
 ## Reference(s)
 
