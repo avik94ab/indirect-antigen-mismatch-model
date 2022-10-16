@@ -71,6 +71,8 @@ Congratulations!  NetMHCIIpan is installed and functional!
 
 Adapted from: https://raw.githubusercontent.com/wiki/CaronLab/MhcVizPipe/Installation-of-third-party-software.md
 
+## License Agreements 
+By using the Software contained within this repository you are consenting to be bound by and become a party to the agreement viewable at https://services.healthtech.dtu.dk/service.php?NetMHCpan-4.0, as the "Licensee". If you do not agree to all of the terms of the agreement, you must not use the product, and you do not become a LICENSEE under the agreement
 
 ## Reference(s)
 
