@@ -1,6 +1,24 @@
 import iedb, math
+from mhctools import NetMHCIIpan4_BA
 import pandas as pd
 from bioservices import UniProt
+
+def bindingScore(peptides, alleles = ["HLA-DRA1*01:01-DRB1*03:01", "HLA-DRA1*01:01-DRB1*07:01"]):
+    protein_sequences = {}
+    i = 0
+    for p in peptides:
+        protein_sequences[i] = p
+        i += 1
+    predictor = NetMHCIIpan4_BA(alleles = alleles)
+    mhcii_res = predictor.predict_subsequences(protein_sequences, peptide_lengths = [15]).to_dataframe()
+
+    df = pd.DataFrame(columns = alleles, index = peptides)
+    for a in alleles:
+        for p in peptides:
+            idx = (mhcii_res[(mhcii_res['allele']  == a) & (mhcii_res['peptide'] == p)].index.to_list())
+            df.loc[p,a] = mhcii_res.loc[idx[0],'score']
+    return df
+
 
 def NetMHCIIPan4(peptides, threshold = 0.5, allele = ["HLA-DRB1*03:01","HLA-DRB1*07:01","HLA-DRB1*15:01","HLA-DRB3*01:01","HLA-DRB3*02:02","HLA-DRB4*01:01","HLA-DRB5*01:01"]):
 
